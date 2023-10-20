@@ -8,6 +8,10 @@
 
 ## Installation
 
+```shell
+git clone https://github.com/cjlworld/mubu-to-md-converter.git
+```
+
 ## Usage
 
 将幕布导出的 html 文件转换为 markdown：
