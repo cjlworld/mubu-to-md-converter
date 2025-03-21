@@ -14,6 +14,20 @@ class MubuConverter:
         for latex_tag in soup.find_all("span", attrs={"class": "formula", "data-raw": True}): 
             latex_tag.string = f'${latex_tag.find("annotation").string}$'
 
+        # 处理非公式块中的下划线，替换为\_
+        for text_node in soup.find_all(string=True):
+            if text_node.find_parent('span', class_='formula'):
+                continue
+            replaced_text = text_node.replace('_', r'\_')
+            text_node.replace_with(replaced_text)
+        
+        # 处理非公式块中的 *，替换为\*
+        for text_node in soup.find_all(string=True):
+            if text_node.find_parent('span', class_='formula'):
+                continue
+            replaced_text = text_node.replace('*', r'\*')
+            text_node.replace_with(replaced_text)
+    
         # 删除 head, head 中包含大量的 style 文件, 且 MarkdownConverter 会识别错误
         head_tag = soup.find("head")
         if type(head_tag) is Tag:
@@ -25,13 +39,16 @@ class MubuConverter:
             publish_tag.clear()
 
         # Convert parsed content to Markdown using markdownify
-        # TODO：目前有个小问题，就是 LaTeX 中有 _, 为了避免将 _ 换成 \_， 必须开启 escape_underscores
-        # 但这个操作会影响其余部分
+        # 就是 LaTeX 中有 _, 为了避免将 _ 换成 \_， 必须开启 escape_underscores
+        # 转义在前面已经处理过了，这里不需要再处理
         md_content = MarkdownConverter(escape_underscores=False, escape_asterisks=False, bullets='-').convert_soup(soup)
         
         # 清除多余的换行符
         md_content = md_content.lstrip()
-
+        # 清除开头的 'html'
+        if md_content.startswith('html'):
+            md_content = md_content[4:]
+            md_content = md_content.lstrip()
         # 加上标题 H1
         md_content = f"# {md_content}"
         return md_content
