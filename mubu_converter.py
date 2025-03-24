@@ -3,11 +3,10 @@ from markdownify import MarkdownConverter
 import sys
 
 class MubuConverter:
-    def convert(self, html: str) -> str:
-        # Parse HTML using BeautifulSoup
+    def convert(self, html: str) -> str:       
         soup = BeautifulSoup(html, 'html.parser')
         return self.convert_soup(soup)
-    
+
     def convert_soup(self, soup: BeautifulSoup) -> str:
         # Convert LaTeX blocks
         # MarkdownConverter 不能处理公式快，需要预处理
@@ -27,7 +26,17 @@ class MubuConverter:
                 continue
             replaced_text = text_node.replace('*', r'\*')
             text_node.replace_with(replaced_text)
-    
+
+        # 处理加粗, 斜体, 删除线
+        deal_map = {
+            "bold": "**",
+            "italic": "*",
+            "strikethrough": "~~"
+        }
+        for tag_name, tag_symbol in deal_map.items():
+            for text_node in soup.find_all(class_=tag_name):
+                text_node.string = f"{tag_symbol}{text_node.string}{tag_symbol}"
+        
         # 删除 head, head 中包含大量的 style 文件, 且 MarkdownConverter 会识别错误
         head_tag = soup.find("head")
         if type(head_tag) is Tag:

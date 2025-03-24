@@ -2,9 +2,9 @@
 
 - 这是一个测试！
 
-  - 这是 加粗 。
-  - 这是 斜体 。
-  - 这是 删除 。
+  - 这是 **加粗** 。
+  - 这是 *斜体* 。
+  - 这是 ~~删除~~ 。
   - 这是链接： [cjlworld/mubu-to-md-converter (github.com)](https://github.com/cjlworld/mubu-to-md-converter)
   - 这是 行内代码 python mubu\_converter.py < your\_mubu\_export\_file.html > md\_name.md。
   - LaTeX 测试：
