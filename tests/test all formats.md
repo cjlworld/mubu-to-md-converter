@@ -6,7 +6,7 @@
   - 这是 *斜体* 。
   - 这是 ~~删除~~ 。
   - 这是链接： [cjlworld/mubu-to-md-converter (github.com)](https://github.com/cjlworld/mubu-to-md-converter)
-  - 这是 行内代码 python mubu\_converter.py < your\_mubu\_export\_file.html > md\_name.md。
+  - 这是 行内代码 `python mubu_converter.py < your_mubu_export_file.html > md_name.md`。
   - LaTeX 测试：
 
     - 浮点数： $(-1)^s\times 2^{exp-1023} \times1.frac$
