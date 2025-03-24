@@ -35,7 +35,3 @@ On Windows
 ```
 ./runtests.bat
 ```
-
-## TODO
-
-- 处理公式中的 `_` 以及 `*`
